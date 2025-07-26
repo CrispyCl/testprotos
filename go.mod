@@ -1,4 +1,4 @@
-module protos
+module github.com/CrispyCl/testprotos
 
 go 1.23.0
 
