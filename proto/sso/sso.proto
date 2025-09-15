@@ -2,21 +2,12 @@ syntax = "proto3";
 
 package auth;
 
-option go_package = "github.com/CrispyCl/testprotos/gen/go/sso;ssov1";
+option go_package = "github.com/CrispyCl/testprotos/gen/go/sso;ssov2";
 
 service Auth {
-    rpc Register(RegisterRequest) returns (RegisterResponse);
     rpc Login(LoginRequest) returns (TokenPairResponse);
     rpc Refresh(RefreshTokenRequest) returns (TokenPairResponse);
-}
-
-message RegisterRequest {
-    string email = 1;
-    string password = 2;
-}
-
-message RegisterResponse {
-    int64 user_id = 1;
+    rpc ValidateToken(ValidateTokenRequest) returns (ValidateTokenResponse);
 }
 
 message LoginRequest {
@@ -32,4 +23,28 @@ message RefreshTokenRequest {
 message TokenPairResponse {
     string access_token = 1;
     string refresh_token = 2;
+}
+
+message ValidateTokenRequest {
+    string token = 1;
+}
+
+message ValidateTokenResponse {
+    TokenStatus token = 1;
+    int64 user_id = 2;
+    UserRole role = 3;
+}
+
+enum TokenStatus {
+    TOKEN_STATUS_INVALID = 0;
+    TOKEN_STATUS_VALID = 1;
+    TOKEN_STATUS_EXPIRED = 2;
+    TOKEN_STATUS_REVOKED = 3;
+}
+
+enum UserRole {
+    USER_ROLE_UNSPECIFIED = 0; 
+    USER_ROLE_USER        = 1;
+    USER_ROLE_MANAGER     = 2;
+    USER_ROLE_ADMIN       = 3;
 }
