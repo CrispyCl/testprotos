@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+package users;
+
+option go_package = "github.com/CrispyCl/testprotos/gen/go/users;usersv1";
+
+service Users {
+    rpc Register(RegisterRequest) returns (RegisterResponse);
+    rpc GetUserByEmail(GetUserByEmailRequest) returns (GetUserByEmailResponse);
+}
+
+message RegisterRequest {
+    string email = 1;
+    string password = 2;
+}
+
+message RegisterResponse {
+    int64 user_id = 1;
+}
+
+message GetUserByEmailRequest {
+  string email = 1;
+}
+
+message GetUserByEmailResponse {
+    uint64 user_id = 1;
+    string email = 2;
+    string password_hash = 3;
+    UserRole role = 4;
+}
+
+enum UserRole {
+    USER_ROLE_UNSPECIFIED = 0; 
+    USER_ROLE_USER        = 1;
+    USER_ROLE_MANAGER     = 2;
+    USER_ROLE_ADMIN       = 3;
+}
