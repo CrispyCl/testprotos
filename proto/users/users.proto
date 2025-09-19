@@ -5,13 +5,17 @@ package users;
 option go_package = "github.com/CrispyCl/testprotos/gen/go/users;usersv1";
 
 service Users {
-    rpc Register(RegisterRequest) returns (RegisterResponse);
-    rpc GetUserByEmail(GetUserByEmailRequest) returns (GetUserByEmailResponse);
+    rpc Register (RegisterRequest) returns (RegisterResponse);
+    rpc GetUserByEmail (GetUserByEmailRequest) returns (GetUserResponse);
+    rpc GetUserMy (EmptyRequest) returns (GetUserResponse);
+    rpc CheckPassword (CheckPasswordRequest) returns (SuccessResponse);
+    rpc UpdateLastSeen (EmptyRequest) returns (SuccessResponse);
 }
 
 message RegisterRequest {
     string email = 1;
     string password = 2;
+    UserRole role = 3;
 }
 
 message RegisterResponse {
@@ -22,11 +26,21 @@ message GetUserByEmailRequest {
   string email = 1;
 }
 
-message GetUserByEmailResponse {
-    uint64 user_id = 1;
+message GetUserResponse {
+    int64 user_id = 1;
     string email = 2;
-    string password_hash = 3;
-    UserRole role = 4;
+    UserRole role = 3;
+}
+
+message CheckPasswordRequest {
+    string email = 1;
+    string password = 2;
+}
+
+message EmptyRequest { }
+
+message SuccessResponse {
+    bool success = 1;
 }
 
 enum UserRole {
