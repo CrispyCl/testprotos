@@ -9,7 +9,7 @@ service Users {
     rpc GetUserByEmail (GetUserByEmailRequest) returns (GetUserResponse);
     rpc GetUserMy (EmptyRequest) returns (GetUserResponse);
     rpc CheckPassword (CheckPasswordRequest) returns (SuccessResponse);
-    rpc UpdateLastSeen (EmptyRequest) returns (SuccessResponse);
+    rpc UpdateLastSeen (EmptyRequest) returns (EmptyResponse);
 }
 
 message RegisterRequest {
@@ -38,6 +38,8 @@ message CheckPasswordRequest {
 }
 
 message EmptyRequest { }
+
+message EmptyResponse { }
 
 message SuccessResponse {
     bool success = 1;

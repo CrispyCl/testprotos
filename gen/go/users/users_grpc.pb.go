@@ -34,7 +34,7 @@ type UsersClient interface {
 	GetUserByEmail(ctx context.Context, in *GetUserByEmailRequest, opts ...grpc.CallOption) (*GetUserResponse, error)
 	GetUserMy(ctx context.Context, in *EmptyRequest, opts ...grpc.CallOption) (*GetUserResponse, error)
 	CheckPassword(ctx context.Context, in *CheckPasswordRequest, opts ...grpc.CallOption) (*SuccessResponse, error)
-	UpdateLastSeen(ctx context.Context, in *EmptyRequest, opts ...grpc.CallOption) (*SuccessResponse, error)
+	UpdateLastSeen(ctx context.Context, in *EmptyRequest, opts ...grpc.CallOption) (*EmptyResponse, error)
 }
 
 type usersClient struct {
@@ -85,9 +85,9 @@ func (c *usersClient) CheckPassword(ctx context.Context, in *CheckPasswordReques
 	return out, nil
 }
 
-func (c *usersClient) UpdateLastSeen(ctx context.Context, in *EmptyRequest, opts ...grpc.CallOption) (*SuccessResponse, error) {
+func (c *usersClient) UpdateLastSeen(ctx context.Context, in *EmptyRequest, opts ...grpc.CallOption) (*EmptyResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(SuccessResponse)
+	out := new(EmptyResponse)
 	err := c.cc.Invoke(ctx, Users_UpdateLastSeen_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -103,7 +103,7 @@ type UsersServer interface {
 	GetUserByEmail(context.Context, *GetUserByEmailRequest) (*GetUserResponse, error)
 	GetUserMy(context.Context, *EmptyRequest) (*GetUserResponse, error)
 	CheckPassword(context.Context, *CheckPasswordRequest) (*SuccessResponse, error)
-	UpdateLastSeen(context.Context, *EmptyRequest) (*SuccessResponse, error)
+	UpdateLastSeen(context.Context, *EmptyRequest) (*EmptyResponse, error)
 	mustEmbedUnimplementedUsersServer()
 }
 
@@ -126,7 +126,7 @@ func (UnimplementedUsersServer) GetUserMy(context.Context, *EmptyRequest) (*GetU
 func (UnimplementedUsersServer) CheckPassword(context.Context, *CheckPasswordRequest) (*SuccessResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CheckPassword not implemented")
 }
-func (UnimplementedUsersServer) UpdateLastSeen(context.Context, *EmptyRequest) (*SuccessResponse, error) {
+func (UnimplementedUsersServer) UpdateLastSeen(context.Context, *EmptyRequest) (*EmptyResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateLastSeen not implemented")
 }
 func (UnimplementedUsersServer) mustEmbedUnimplementedUsersServer() {}
